@@ -1,0 +1,19 @@
+mutation($lineItem: LineItemInput!, $id: ID!) {
+    removeItemFromCart(
+        id: $id,
+        lineItem: $lineItem
+    ) {
+        id
+        status
+        totalPrice
+        lineItems {
+            price
+            quantity
+            sku
+            productName
+            variantNames {
+                name
+            }
+        }
+    }
+}

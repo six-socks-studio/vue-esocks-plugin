@@ -1,0 +1,17 @@
+query($id: ID!) {
+  order(id: $id) {
+      id
+      status
+      totalPrice
+      lineItems {
+          id
+          price
+          quantity
+          sku
+          productName
+          variantNames {
+            name
+          }
+      }
+  }
+}

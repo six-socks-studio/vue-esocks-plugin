@@ -1,0 +1,16 @@
+subscription($id: ID!) {
+  updateOrder(id: $id) {
+    id
+    status
+    totalPrice
+    lineItems {
+        price
+        quantity
+        sku
+        productName
+        variantNames {
+            name
+        }
+    }
+  }
+}

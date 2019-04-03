@@ -1,0 +1,11 @@
+{
+  "name": "vue-esocks-plugin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/plugin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tiziano Puppi",
+  "license": "MIT"
+}
