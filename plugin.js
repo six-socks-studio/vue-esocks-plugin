@@ -1,5 +1,5 @@
-import cartStore from '~/cart/store'
-import { DollarEsocksCart } from '~/cart/dollar_esocks_cart'
+import cartStore from './cart/store'
+import { DollarEsocksCart } from './cart/dollar_esocks_cart'
 
 const install = (Vue) => {
   if (install.installed) return

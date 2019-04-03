@@ -1,8 +1,8 @@
 
-import retrieveCart from '~/cart/queries/retrieveCart'
-import addProductToCart from '~/cart/queries/addProductToCart'
-import removeProductFromCart from '~/cart/queries/removeProductFromCart'
-import CartUpdate from '~/cart/queries/subscribeCartUpdate'
+import retrieveCart from './queries/retrieveCart.gql'
+import addProductToCart from './queries/addProductToCart.gql'
+import removeProductFromCart from './queries/removeProductFromCart.gql'
+import CartUpdate from './queries/subscribeCartUpdate.gql'
 
 let cartSubscriptionObserver;
 

@@ -2,10 +2,18 @@
   "name": "vue-esocks-plugin",
   "version": "1.0.0",
   "description": "",
-  "main": "src/plugin.js",
+  "main": "plugin.js",
   "scripts": {
+    "build": "rollup --config build/rollup.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tiziano Puppi",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/core": "^7.4.3",
+    "graphql": "^14.2.1",
+    "rollup": "^1.8.0",
+    "rollup-plugin-babel": "^4.3.2",
+    "rollup-plugin-graphql": "^0.1.0"
+  }
 }
