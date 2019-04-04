@@ -39,7 +39,10 @@ export const actions = {
 
     dispatch('subscribeToCart', order.id)
 
-    this.app.$cookies.set('shopCheckoutID', order.id)
+    // Put arbitrary 5 years of expiry dates.
+    // Not setting expiry date does not keep cookie across browser closing
+    const expiryDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5))
+    this.app.$cookies.set('shopCheckoutID', order.id, {expires: expiryDate})
     commit('addCheckoutID', order.id)
   },
 
