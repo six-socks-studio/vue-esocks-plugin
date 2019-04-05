@@ -7,15 +7,15 @@ export class DollarEsocksCart {
     return this.vm.$store
   }
 
-  addProductToCart(payload) {
+  addProductToCart (payload) {
     this.store.dispatch('checkout/addProductToCart', payload)
   }
 
-  removeProductFromCart(payload) {
+  removeProductFromCart (payload) {
     this.store.dispatch('checkout/removeProductFromCart', payload)
   }
 
-  state() {
+  state () {
     return this.store.state.checkout
   }
 }

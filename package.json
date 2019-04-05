@@ -1,17 +1,23 @@
 {
   "name": "vue-esocks-plugin",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "",
-  "main": "dit/dummy.umd.js",
-  "module": "dist/dummy.esm.js",
-  "unpkg": "dist/dummy.min.js",
+  "main": "dist/vue-esocks-plugin.umd.js",
+  "module": "dist/vue-esocks-plugin.esm.js",
+  "unpkg": "dist/vue-esocks-plugin.min.js",
   "scripts": {
     "build": "npm run build:umd & npm run build:es & npm run build:unpkg",
-    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/dummy.umd.js",
-    "build:es": "rollup --config build/rollup.config.js --format es --file dist/dummy.esm.js",
-    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/dummy.min.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build:umd": "rollup --config build/rollup.config.js --format umd --file dist/vue-esocks-plugin.umd.js",
+    "build:es": "rollup --config build/rollup.config.js --format es --file dist/vue-esocks-plugin.esm.js",
+    "build:unpkg": "rollup --config build/rollup.config.js --format iife --file dist/vue-esocks-plugin.min.js",
+    "test": "npm run test:eslint",
+    "test:eslint": "eslint --ext .js cart/**/*.js plugin.js",
+    "test:fix": "eslint --fix --ext .js cart/**/*.js plugin.js"
   },
+  "keywords": [
+    "esocks",
+    "vue"
+  ],
   "author": "Tiziano Puppi",
   "license": "MIT",
   "devDependencies": {

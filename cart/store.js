@@ -4,7 +4,7 @@ import addProductToCart from './queries/addProductToCart.gql'
 import removeProductFromCart from './queries/removeProductFromCart.gql'
 import CartUpdate from './queries/subscribeCartUpdate.gql'
 
-let cartSubscriptionObserver;
+let cartSubscriptionObserver
 
 export const state = () => ({
   id: null,
@@ -15,16 +15,16 @@ export const state = () => ({
 })
 
 export const mutations = {
-  updateCheckout(state, payload) {
+  updateCheckout (state, payload) {
     Object.assign(state, payload)
   },
-  addCheckoutID(state, payload) {
+  addCheckoutID (state, payload) {
     state.id = payload
-  },
+  }
 }
 
 export const actions = {
-  async addProductToCart({ commit, state, dispatch }, payload) {
+  async addProductToCart ({ commit, state, dispatch }, payload) {
     let variables = { lineItem: payload }
     const cartId = state.id
     if (cartId) variables.id = cartId
@@ -42,11 +42,11 @@ export const actions = {
     // Put arbitrary 5 years of expiry dates.
     // Not setting expiry date does not keep cookie across browser closing
     const expiryDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5))
-    this.app.$cookies.set('shopCheckoutID', order.id, {expires: expiryDate})
+    this.app.$cookies.set('shopCheckoutID', order.id, { expires: expiryDate })
     commit('addCheckoutID', order.id)
   },
 
-  async removeProductFromCart({ commit, state }, payload) {
+  async removeProductFromCart ({ commit, state }, payload) {
     // Remove item from cart implies we have a cart
     let variables = { lineItem: payload }
     variables.id = state.id
@@ -60,37 +60,37 @@ export const actions = {
     commit('updateCheckout', order)
   },
 
-  subscribeToCart({commit}, payload){
+  subscribeToCart ({ commit }, payload) {
     if (!cartSubscriptionObserver) {
       let variables = { id: payload }
       const cartSubscriptionObservable = this.app.apolloProvider.defaultClient.subscribe({
         query: CartUpdate,
         variables
-      });
+      })
 
       cartSubscriptionObserver = cartSubscriptionObservable.subscribe({
-        next(reply){
+        next (reply) {
           const order = reply.data.updateOrder
           commit('updateCheckout', order)
         },
-        error(error){
-          console.log(error);
+        error (error) {
+          console.log(error)
         }
-      });
+      })
     }
   },
 
-  unsubscribeFromCart(){
+  unsubscribeFromCart () {
     if (cartSubscriptionObserver) {
-      cartSubscriptionObserver.unsubscribe();
-      cartSubscriptionObserver = null;
+      cartSubscriptionObserver.unsubscribe()
+      cartSubscriptionObserver = null
     }
   },
 
-  async init({ commit, dispatch }, cartId) {
+  async init ({ commit, dispatch }, cartId) {
     const serverCheckout = await this.app.apolloProvider.defaultClient.query({
       query: retrieveCart,
-      variables: {id: cartId}
+      variables: { id: cartId }
     })
     const order = serverCheckout.data.order
     commit('updateCheckout', order)
@@ -98,12 +98,12 @@ export const actions = {
     dispatch('subscribeToCart', order.id)
   },
 
-  async serverInit({commit, dispatch}, {app}) {
-    const shopCheckoutID = app.$cookies.get("shopCheckoutID")
+  async serverInit ({ commit, dispatch }, { app }) {
+    const shopCheckoutID = app.$cookies.get('shopCheckoutID')
     if (shopCheckoutID) {
       const serverCheckout = await app.apolloProvider.defaultClient.query({
         query: retrieveCart,
-        variables: {id: shopCheckoutID}
+        variables: { id: shopCheckoutID }
       })
       const order = serverCheckout.data.order
       commit('updateCheckout', order)
