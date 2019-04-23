@@ -42,7 +42,11 @@ export const actions = {
     // Put arbitrary 5 years of expiry dates.
     // Not setting expiry date does not keep cookie across browser closing
     const expiryDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5))
-    this.app.$cookies.set('shopCheckoutID', order.id, { expires: expiryDate })
+
+    if (this.app.$cookies.isKey('shopCheckoutID')) {
+      this.app.$cookies.set('shopCheckoutID', order.id, { expires: expiryDate })
+    }
+
     commit('addCheckoutID', order.id)
   },
 
@@ -87,7 +91,10 @@ export const actions = {
     }
   },
 
-  async init ({ commit, dispatch }, cartId) {
+  async init ({ commit, dispatch }) {
+    if (!this.app.$cookies.isKey('shopCheckoutID')) return
+    const cartId = this.app.$cookies.get('shopCheckoutID')
+
     const serverCheckout = await this.app.apolloProvider.defaultClient.query({
       query: retrieveCart,
       variables: { id: cartId }
@@ -96,20 +103,6 @@ export const actions = {
     commit('updateCheckout', order)
 
     dispatch('subscribeToCart', order.id)
-  },
-
-  async serverInit ({ commit, dispatch }, { app }) {
-    const shopCheckoutID = app.$cookies.get('shopCheckoutID')
-    if (shopCheckoutID) {
-      const serverCheckout = await app.apolloProvider.defaultClient.query({
-        query: retrieveCart,
-        variables: { id: shopCheckoutID }
-      })
-      const order = serverCheckout.data.order
-      commit('updateCheckout', order)
-
-      dispatch('subscribeToCart', order.id)
-    }
   }
 }
 

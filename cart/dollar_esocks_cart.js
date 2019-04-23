@@ -1,6 +1,7 @@
 export class DollarEsocksCart {
   constructor (vm) {
     this.vm = vm
+    this.store.dispatch('checkout/init')
   }
 
   get store () {

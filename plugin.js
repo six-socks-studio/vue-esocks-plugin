@@ -21,11 +21,7 @@ const install = (Vue) => {
 const plugin = class EsocksPlugin {
   constructor({store}) {
     this.store = store
-    store.registerModule('checkout',  cartStore)
-  }
-
-  init(shopCheckoutID) {
-    this.store.dispatch('checkout/init', shopCheckoutID)
+    store.registerModule('checkout', cartStore)
   }
 }
 
