@@ -8,6 +8,10 @@ subscription($id: ID!) {
         quantity
         sku
         productName
+        images {
+          name
+          url
+        }
         variantNames {
             name
             presentation
