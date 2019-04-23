@@ -10,6 +10,7 @@ subscription($id: ID!) {
         productName
         variantNames {
             name
+            presentation
         }
     }
   }

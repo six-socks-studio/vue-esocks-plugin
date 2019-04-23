@@ -11,6 +11,7 @@ query($id: ID!) {
           productName
           variantNames {
             name
+            presentation
           }
       }
   }
