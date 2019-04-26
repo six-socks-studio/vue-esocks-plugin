@@ -1,0 +1,16 @@
+mutation($id: ID!, $email: String!) {
+  addCartToCustomer(email: $email, id: $id) {
+    cart {
+      id
+      totalPrice
+      lineItems {
+        sku
+        price
+        quantity
+      }
+    }
+    customer {
+      email
+    }
+  }
+}

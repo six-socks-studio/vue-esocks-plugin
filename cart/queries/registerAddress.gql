@@ -1,0 +1,23 @@
+mutation($email: String!, $address: AddressInput!, $addressType: AddressType!) {
+    registerAddress(email: $email, address: $address, addressType: $addressType) {
+        email,
+        billingAddress {
+            firstname
+            lastname
+            address1
+            address2
+            city
+            zipcode
+            state
+        }
+        shippingAddress {
+            firstname
+            lastname
+            address1
+            address2
+            city
+            zipcode
+            state
+        }
+    }
+}
