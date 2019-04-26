@@ -3,6 +3,8 @@ import retrieveCart from './queries/retrieveCart.gql'
 import addProductToCart from './queries/addProductToCart.gql'
 import removeProductFromCart from './queries/removeProductFromCart.gql'
 import CartUpdate from './queries/subscribeCartUpdate.gql'
+import addCartToCustomer from '~/apollo/queries/addCartToCustomer'
+import registerAddress from '~/apollo/queries/registerAddress'
 
 let cartSubscriptionObserver
 
@@ -11,19 +13,73 @@ export const state = () => ({
   status: '',
   lineItems: [],
   totalPrice: 0,
-  shippingPrice: 0
+  shippingPrice: 0,
+  email: '',
+  shippingAddress: {},
+  billingAddress: {}
 })
 
 export const mutations = {
   updateCheckout (state, payload) {
     Object.assign(state, payload)
   },
+
   addCheckoutID (state, payload) {
     state.id = payload
+  },
+
+  setShipping (st, { address }) {
+    st.shippingAddress = address
+  },
+
+  setBilling (st, { email, address }) {
+    st.email = email
+    st.billingAddress = address
+    st.shippingAddress = address
+  },
+
+  emptyCart (st) {
+    st.lineItems = []
+    st.totalPrice = 0
+    st.shippingPrice = 0
   }
 }
 
 export const actions = {
+  async updateShippingAddress ({ commit, state }, address) {
+    await this.app.apolloProvider.defaultClient.mutate({
+      mutation: registerAddress,
+      variables: {
+        addressType: 'SHIPPING',
+        email: state.email,
+        address
+      }
+    })
+
+    commit('setShipping', { address })
+  },
+
+  async registerBillingAddress ({ commit, rootState }, { email, address }) {
+    await this.app.apolloProvider.defaultClient.mutate({
+      mutation: registerAddress,
+      variables: {
+        addressType: 'BILLING_AND_SHIPPING',
+        email,
+        address
+      }
+    })
+
+    await this.app.apolloProvider.defaultClient.mutate({
+      mutation: addCartToCustomer,
+      variables: {
+        email,
+        id: rootState.checkout.id
+      }
+    })
+
+    commit('setBilling', { email, address })
+  },
+
   async addProductToCart ({ commit, state, dispatch }, payload) {
     let variables = { lineItem: payload }
     const cartId = state.id
@@ -43,7 +99,7 @@ export const actions = {
     // Not setting expiry date does not keep cookie across browser closing
     const expiryDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5))
 
-    if (this.app.$cookies.isKey('shopCheckoutID')) {
+    if (!this.app.$cookies.get('shopCheckoutID')) {
       this.app.$cookies.set('shopCheckoutID', order.id, { expires: expiryDate })
     }
 
@@ -92,16 +148,18 @@ export const actions = {
   },
 
   async init ({ commit, dispatch }) {
-    if (!this.app.$cookies.isKey('shopCheckoutID')) return
     const cartId = this.app.$cookies.get('shopCheckoutID')
+
+    if (!cartId) return
 
     const serverCheckout = await this.app.apolloProvider.defaultClient.query({
       query: retrieveCart,
       variables: { id: cartId }
     })
-    const order = serverCheckout.data.order
-    commit('updateCheckout', order)
 
+    const order = serverCheckout.data.order
+
+    commit('updateCheckout', order)
     dispatch('subscribeToCart', order.id)
   }
 }

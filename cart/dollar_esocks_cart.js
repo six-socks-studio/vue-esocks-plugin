@@ -16,6 +16,18 @@ export class DollarEsocksCart {
     this.store.dispatch('checkout/removeProductFromCart', payload)
   }
 
+  emptyCart (payload) {
+    this.store.dispatch('checkout/emptyCart', payload)
+  }
+
+  updateShippingAddress (payload) {
+    this.store.dispatch('checkout/updateShippingAddress', payload)
+  }
+
+  registerBillingAddress (payload) {
+    this.store.dispatch('checkout/registerBillingAddress', payload)
+  }
+
   state () {
     return this.store.state.checkout
   }
