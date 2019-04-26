@@ -3,8 +3,8 @@ import retrieveCart from './queries/retrieveCart.gql'
 import addProductToCart from './queries/addProductToCart.gql'
 import removeProductFromCart from './queries/removeProductFromCart.gql'
 import CartUpdate from './queries/subscribeCartUpdate.gql'
-import addCartToCustomer from './queries/addCartToCustomer'
-import registerAddress from './queries/registerAddress'
+import addCartToCustomer from './queries/addCartToCustomer.gql'
+import registerAddress from './queries/registerAddress.gql'
 
 let cartSubscriptionObserver
 
