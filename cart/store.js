@@ -100,7 +100,7 @@ export const actions = {
     const expiryDate = new Date(new Date().setFullYear(new Date().getFullYear() + 5))
 
     if (!this.app.$cookies.get('shopCheckoutID')) {
-      this.app.$cookies.set('shopCheckoutID', order.id, { expires: expiryDate })
+      this.app.$cookies.set('shopCheckoutID', order.id, { expires: expiryDate, path: '/' })
     }
 
     commit('addCheckoutID', order.id)
