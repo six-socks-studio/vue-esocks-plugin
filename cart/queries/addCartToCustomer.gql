@@ -1,6 +1,6 @@
 mutation($id: ID!, $email: String!) {
   addCartToCustomer(email: $email, id: $id) {
-    cart {
+    order {
       id
       totalPrice
       lineItems {
@@ -8,9 +8,9 @@ mutation($id: ID!, $email: String!) {
         price
         quantity
       }
-    }
-    customer {
-      email
+      customer {
+        email
+      }
     }
   }
 }
