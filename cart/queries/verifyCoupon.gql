@@ -1,0 +1,8 @@
+mutation($code: String!) {
+	verifyCoupon(code: $code) {
+		id
+    redeemBy
+    percentOff
+    valid
+	}
+}

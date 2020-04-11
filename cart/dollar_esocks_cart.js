@@ -28,6 +28,10 @@ export class DollarEsocksCart {
     this.store.dispatch('checkout/registerBillingAddress', payload)
   }
 
+  verifyCoupon (payload) {
+    this.store.dispatch('checkout/registerBillingAddress', payload)
+  }
+
   state () {
     return this.store.state.checkout
   }

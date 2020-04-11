@@ -5,6 +5,7 @@ import removeProductFromCart from './queries/removeProductFromCart.gql'
 import CartUpdate from './queries/subscribeCartUpdate.gql'
 import addCartToCustomer from './queries/addCartToCustomer.gql'
 import registerAddress from './queries/registerAddress.gql'
+import verifyCoupon from './queries/verifyCoupon.gql'
 
 let cartSubscriptionObserver
 
@@ -15,6 +16,7 @@ export const state = () => ({
   totalPrice: 0,
   shippingPrice: 0,
   email: '',
+  discount: {},
   shippingAddress: {},
   billingAddress: {}
 })
@@ -42,6 +44,10 @@ export const mutations = {
     st.lineItems = []
     st.totalPrice = 0
     st.shippingPrice = 0
+  },
+
+  updateDiscount (state, payload) {
+    state.discount = payload
   }
 }
 
@@ -145,6 +151,17 @@ export const actions = {
       cartSubscriptionObserver.unsubscribe()
       cartSubscriptionObserver = null
     }
+  },
+
+  async verifyCoupon ({ commit }, payload) {
+    let variables = { code: payload }
+
+    const reply = await this.$apolloProvider.defaultClient.mutate({
+      mutation: verifyCoupon,
+      variables
+    })
+
+    commit('updateDiscount', reply.data.verifyCoupon)
   },
 
   async init ({ commit, dispatch }) {
