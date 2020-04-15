@@ -1,6 +1,6 @@
 {
   "name": "@six-socks-studio/vue-esocks-plugin",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Vue helper plugin for esock plugin",
   "main": "dist/vue-esocks-plugin.umd.js",
   "module": "dist/vue-esocks-plugin.esm.js",
